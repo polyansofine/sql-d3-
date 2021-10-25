@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@amcharts/amcharts4": "^4.10.22",
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
     "@mui/icons-material": "^5.0.4",
@@ -14,7 +15,6 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.23.0",
     "clsx": "^1.1.1",
-    "d3": "^7.1.1",
     "date-fns": "^2.25.0",
     "history": "^4.10.1",
     "lodash": "^4.17.21",
