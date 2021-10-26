@@ -3,12 +3,14 @@ const helper = require("../helper");
 const config = require("../config");
 const moment = require("moment");
 const today = new Date();
+console.log("today=", today);
 async function getMultiple(page = 1) {
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
     `SELECT * 
-    FROM sensor_data`,
-    [offset, config.listPerPage]
+    FROM sensor_data WHERE record_id BETWEEN "${moment(new Date()).format(
+      "YYYY-MM-DD"
+    )} 00:00:00" AND "${moment(new Date()).format("YYYY-MM-DD")} 23:59:59"`
   );
   const limit = await db.query(`SELECT * FROM settings`);
   const sensor_id = await db.query(
@@ -54,7 +56,11 @@ async function getFilterData(location, period) {
     rows = await db.query(
       `SELECT * 
       FROM sensor_data 
-      WHERE sensor_id = ${location} `
+      WHERE sensor_id = ${location} AND record_id BETWEEN "${moment(
+        new Date()
+      ).format("YYYY-MM-DD")} 00:00:00" AND "${moment(new Date()).format(
+        "YYYY-MM-DD"
+      )} 23:59:59"`
     );
     data = helper.emptyOrRows(rows);
   }

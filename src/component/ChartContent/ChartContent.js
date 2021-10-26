@@ -4,6 +4,7 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import am4themes_material from "@amcharts/amcharts4/themes/material";
 
 // interface LineChartData {
 //   d: string;
@@ -170,6 +171,7 @@ const ChartContent = (props) => {
   useEffect(() => {
     /* Chart code */
     // Themes begin
+    am4core.useTheme(am4themes_material);
     am4core.useTheme(am4themes_animated);
     // Themes end
 
@@ -258,7 +260,7 @@ const ChartContent = (props) => {
     }
     series.dataFields.dateX = "record_id";
     series.strokeWidth = 2;
-    series.tooltipText = "{valueY.value}";
+    series.tooltipText = "{dateX}  :  [b]{valueY.value}[/]";
     series.fillOpacity = 0.1;
 
     // Create a range to change stroke for values below 0
@@ -344,7 +346,7 @@ const ChartContent = (props) => {
         <ToggleButton value="value_light">Light</ToggleButton>
         <ToggleButton value="value_sound">Sound</ToggleButton>
       </ToggleButtonGroup>
-      <div id="chartdiv" style={{ height: "600px" }}></div>
+      <div id="chartdiv" style={{ minHeight: props.height }}></div>
     </>
   );
 };

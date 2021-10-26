@@ -21,7 +21,7 @@ export default function ChartPage() {
   return (
     <div>
       {sqlData.length > 0 ? (
-        <ChartContent height={400} values={sqlData} limit={limit} />
+        <ChartContent height={600} values={sqlData} limit={limit} />
       ) : (
         <Box
           style={{
