@@ -12,10 +12,8 @@ async function getMultiple(page = 1) {
       "YYYY-MM-DD"
     )} 00:00:00" AND "${moment(new Date()).format("YYYY-MM-DD")} 23:59:59"`
   );
-  const limit = await db.query(`SELECT * FROM settings`);
-  const sensor_id = await db.query(
-    `SELECT DISTINCT sensor_id FROM sensor_data`
-  );
+  const limit = await db.query(`SELECT * FROM clients`);
+  const sensor_id = await db.query(`SELECT location_id, name FROM clients`);
   const data = helper.emptyOrRows(rows);
   const meta = { page };
 
@@ -65,10 +63,10 @@ async function getFilterData(location, period) {
     data = helper.emptyOrRows(rows);
   }
 
-  const limit = await db.query(`SELECT * FROM settings`);
-  const sensor_id = await db.query(
-    `SELECT DISTINCT sensor_id FROM sensor_data`
+  const limit = await db.query(
+    `SELECT * FROM clients WHERE location_id = ${location}`
   );
+  const sensor_id = await db.query(`SELECT location_id, name FROM clients`);
 
   return {
     data,

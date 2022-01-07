@@ -4,7 +4,7 @@ const moment = require("moment");
 const today = new Date();
 
 async function getLogs() {
-  const logs = await db.query(`SELECT * FROM log`);
+  const logs = await db.query(`SELECT * FROM log ORDER BY time DESC`);
   const data = helper.emptyOrRows(logs);
   const sensor_id = await db.query(`SELECT DISTINCT sensor_id FROM log`);
 
@@ -22,7 +22,7 @@ async function getFilterLogs(location, period) {
       FROM log 
       WHERE sensor_id and time BETWEEN "${moment(period[0]).format(
         "YYYY-MM-DD"
-      )}" AND "${moment(period[1]).format("YYYY-MM-DD")}"`
+      )}" AND "${moment(period[1]).format("YYYY-MM-DD")}" ORDER BY time DESC`
     );
     data = helper.emptyOrRows(rows);
   }
@@ -34,7 +34,9 @@ async function getFilterLogs(location, period) {
       FROM log 
       WHERE sensor_id = ${location} and time BETWEEN "${moment(
         period[0]
-      ).format("YYYY-MM-DD")}" AND "${moment(period[1]).format("YYYY-MM-DD")}"`
+      ).format("YYYY-MM-DD")}" AND "${moment(period[1]).format(
+        "YYYY-MM-DD"
+      )}" ORDER BY time DESC`
     );
     data = helper.emptyOrRows(rows);
   }
@@ -43,7 +45,7 @@ async function getFilterLogs(location, period) {
     rows = await db.query(
       `SELECT * 
       FROM log 
-      WHERE sensor_id = ${location} `
+      WHERE sensor_id = ${location} ORDER BY time DESC`
     );
     data = helper.emptyOrRows(rows);
   }

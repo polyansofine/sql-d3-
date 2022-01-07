@@ -40,10 +40,10 @@ app.use("/users", usersRouter);
 //   res.status(err.status || 500);
 //   res.render("error");
 // });
-app.use(express.static(path.join(__dirname, "../build")));
+app.use(express.static(path.join(__dirname, "./build")));
 
 // Handle React routing, return all requests to React app
 app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "../build", "index.html"));
+  res.sendFile(path.join(__dirname, "./build", "index.html"));
 });
 module.exports = app;

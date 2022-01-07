@@ -18,28 +18,36 @@ import _ from "lodash";
 import * as chartActions from "../store/actions";
 import * as logActions from "../store/actions";
 import { useHistory } from "react-router";
+import { moment } from "moment";
 let tempData = {};
 export default function Header() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState("1");
   const [period, setPeriod] = useState("");
   const [locationData, setLocationData] = useState([]);
-  const [value, setValue] = React.useState([null, null]);
+  const [value, setValue] = React.useState([
+    new Date(
+      new Date().getFullYear(),
+      new Date().getMonth() - 1,
+      new Date().getDate()
+    ),
+    new Date(),
+  ]);
   const sensor_id = useSelector(({ chart }) => chart.sensor_id);
   const log_sensor_id = useSelector(({ logs }) => logs.sensor_id);
   console.log("history===", history.location.pathname);
-  React.useEffect(() => {
-    tempData = _.uniq(
-      _.map(sensor_id.length > 1 ? sensor_id : log_sensor_id, "sensor_id")
-    );
+  // React.useEffect(() => {
+  //   tempData = _.uniq(
+  //     _.map(sensor_id.length > 1 ? sensor_id : log_sensor_id, "sensor_id")
+  //   );
 
-    setLocationData(
-      tempData.sort(function (a, b) {
-        return a - b;
-      })
-    );
-  }, [sensor_id, log_sensor_id]);
+  //   setLocationData(
+  //     tempData.sort(function (a, b) {
+  //       return a - b;
+  //     })
+  //   );
+  // }, [sensor_id, log_sensor_id]);
   React.useEffect(() => {
     if (history.location.pathname == "/") {
       dispatch(
@@ -47,19 +55,25 @@ export default function Header() {
       );
     }
     if (history.location.pathname == "/logpage") {
-      dispatch(
-        logActions.getFilterLogs(location ? location : -1, value ? value : -1)
-      );
+      dispatch(logActions.getFilterLogs(-1, -1));
     }
     console.log("date===", value);
+    console.log(
+      "today===",
+      new Date(
+        new Date().getFullYear(),
+        new Date().getMonth() - 1,
+        new Date().getDate()
+      )
+    );
   }, [location, value]);
 
   const handleLocation = (e) => {
     setLocation(e.target.value);
   };
-  const handlePeriod = (e) => {
-    setPeriod(e.target.value);
-  };
+  // const handlePeriod = (e) => {
+  //   setPeriod(e.target.value);
+  // };
   console.log("localdata==", locationData);
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -102,10 +116,10 @@ export default function Header() {
                   onChange={handleLocation}
                   label="location"
                 >
-                  {locationData?.map((item, index) => {
+                  {sensor_id?.map((item, index) => {
                     return (
-                      <MenuItem key={index} value={item}>
-                        Sensor_{item}
+                      <MenuItem key={index} value={item.location_id}>
+                        {item.name}
                       </MenuItem>
                     );
                   })}
