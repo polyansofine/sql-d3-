@@ -100,18 +100,26 @@ const ChartContent = (props) => {
     let series = chart.series.push(new am4charts.LineSeries());
     if (props.sort == "value_temp") {
       series.dataFields.valueY = "value_temp";
+      series.fill = am4core.color("#e07a5f");
+      series.stroke = am4core.color("#e07a5f");
     }
     if (props.sort == "value_humidity") {
       series.dataFields.valueY = "value_humidity";
+      series.fill = am4core.color("#00b4d8");
+      series.stroke = am4core.color("#00b4d8");
     }
     if (props.sort == "value_light") {
       series.dataFields.valueY = "value_light";
+      series.fill = am4core.color("#fca311");
+      series.stroke = am4core.color("#fca311");
     }
     if (props.sort == "value_sound") {
       series.dataFields.valueY = "value_sound";
+      series.fill = am4core.color("#583101");
+      series.stroke = am4core.color("#583101");
     }
     series.dataFields.dateX = "record_id";
-    series.strokeWidth = 2;
+    series.strokeWidth = 1.5;
     series.tooltipText = "{dateX}  :  [b]{valueY.value}[/]";
     series.fillOpacity = 0.1;
 
@@ -135,6 +143,11 @@ const ChartContent = (props) => {
       range4.grid.stroke = am4core.color("#d00000");
       range4.grid.strokeWidth = 1.5;
       range4.grid.strokeOpacity = 1;
+
+      // range4.contents.stroke = am4core.color("#000814");
+      // range4.contents.fill = range4.contents.stroke;
+      // range4.contents.strokeOpacity = 0.9;
+      // range4.contents.fillOpacity = 0.3;
     }
     if (props.sort == "value_humidity") {
       var range = valueAxis.axisRanges.create();
@@ -193,11 +206,6 @@ const ChartContent = (props) => {
       range4.grid.strokeWidth = 1.5;
       range4.grid.strokeOpacity = 1;
     }
-    // range.endValue = -1000;
-    // range.contents.stroke = chart.colors.getIndex(7);
-    // range.contents.fill = range.contents.stroke;
-    // range.contents.strokeOpacity = 0.9;
-    // range.contents.fillOpacity = 0.3;
 
     // Add cursor
     chart.cursor = new am4charts.XYCursor();
@@ -208,7 +216,8 @@ const ChartContent = (props) => {
     if (props.sort == "value_temp") {
       series.tooltip.adapter.add("x", (x, target) => {
         if (
-          series.tooltip.tooltipDataItem.valueY < props.limit[0].t_day_threshold
+          series.tooltip.tooltipDataItem.valueY <
+          props.limit[0].t_alert_threshold
         ) {
           series.tooltip.background.fill = chart.colors.getIndex(7);
         } else {
@@ -220,7 +229,8 @@ const ChartContent = (props) => {
     if (props.sort == "value_sound") {
       series.tooltip.adapter.add("x", (x, target) => {
         if (
-          series.tooltip.tooltipDataItem.valueY < props.limit[0].s_day_threshold
+          series.tooltip.tooltipDataItem.valueY <
+          props.limit[0].s_alert_threshold
         ) {
           series.tooltip.background.fill = chart.colors.getIndex(7);
         } else {
@@ -232,7 +242,8 @@ const ChartContent = (props) => {
     if (props.sort == "value_humidity") {
       series.tooltip.adapter.add("x", (x, target) => {
         if (
-          series.tooltip.tooltipDataItem.valueY < props.limit[0].h_day_threshold
+          series.tooltip.tooltipDataItem.valueY <
+          props.limit[0].h_alert_threshold
         ) {
           series.tooltip.background.fill = chart.colors.getIndex(7);
         } else {
@@ -244,7 +255,8 @@ const ChartContent = (props) => {
     if (props.sort == "value_light") {
       series.tooltip.adapter.add("x", (x, target) => {
         if (
-          series.tooltip.tooltipDataItem.valueY < props.limit[0].l_day_threshold
+          series.tooltip.tooltipDataItem.valueY <
+          props.limit[0].l_alert_threshold
         ) {
           series.tooltip.background.fill = chart.colors.getIndex(7);
         } else {

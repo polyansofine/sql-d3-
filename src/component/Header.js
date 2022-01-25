@@ -29,8 +29,8 @@ export default function Header() {
   const [value, setValue] = React.useState([
     new Date(
       new Date().getFullYear(),
-      new Date().getMonth() - 1,
-      new Date().getDate()
+      new Date().getMonth(),
+      new Date().getDate() - 1
     ),
     new Date(),
   ]);
@@ -53,19 +53,24 @@ export default function Header() {
       dispatch(
         chartActions.getFilterData(location ? location : -1, value ? value : -1)
       );
+      // dispatch(logActions.getLogs());
     }
     if (history.location.pathname == "/logpage") {
-      dispatch(logActions.getFilterLogs(-1, -1));
+      dispatch(
+        logActions.getFilterLogs(location ? location : -1, value ? value : -1)
+      );
+      dispatch(logActions.getDatas());
+      // dispatch(logActions.getLogs());
     }
-    console.log("date===", value);
-    console.log(
-      "today===",
-      new Date(
-        new Date().getFullYear(),
-        new Date().getMonth() - 1,
-        new Date().getDate()
-      )
-    );
+    // console.log("date===", value);
+    // console.log(
+    //   "today===",
+    //   new Date(
+    //     new Date().getFullYear(),
+    //     new Date().getMonth(),
+    //     new Date().getDate() - 1
+    //   )
+    // );
   }, [location, value]);
 
   const handleLocation = (e) => {
@@ -116,9 +121,12 @@ export default function Header() {
                   onChange={handleLocation}
                   label="location"
                 >
+                  {history.location.pathname == "/logpage" && (
+                    <MenuItem value={-1}>All</MenuItem>
+                  )}
                   {sensor_id?.map((item, index) => {
                     return (
-                      <MenuItem key={index} value={item.location_id}>
+                      <MenuItem key={index} value={item.client_id}>
                         {item.name}
                       </MenuItem>
                     );

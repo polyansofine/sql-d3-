@@ -67,7 +67,7 @@ export default function LogPage() {
   const dispatch = useDispatch();
   const logs = useSelector(({ logs }) => logs.log);
   React.useEffect(() => {
-    dispatch(logActions.getLogs());
+    // dispatch(logActions.getLogs());
   }, []);
   React.useEffect(() => {
     let tempData = [];

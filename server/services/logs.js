@@ -16,7 +16,7 @@ async function getFilterLogs(location, period) {
   let data = [];
   // const offset = helper.getOffset(page, config.listPerPage);
   if (location == -1 && period != [null, null]) {
-    console.log("location-1");
+    // console.log("location-1");
     rows = await db.query(
       `SELECT * 
       FROM log 
@@ -52,10 +52,11 @@ async function getFilterLogs(location, period) {
 
   //   const limit = await db.query(`SELECT * FROM settings`);
   const sensor_id = await db.query(`SELECT DISTINCT sensor_id FROM log`);
-
+  // const sensor_id = await db.query(`SELECT client_id, name FROM clients`);
   return {
     data,
     sensor_id,
+    // client_id,
   };
 }
 
